@@ -1,1 +1,4 @@
 # CSC3104-Project
+
+- Objective
+This project aims to build a cloud-native, distributed AI system that predicts risk levels for multiple cardiometabolic disease outcomes (DM, CKD, CVD, HMOD, CHD), and uses these to classify patients into priority groups. Based on this, a scheduling algorithm will assign appointment priority, which optimises care delivery so that high-risk patients are seen sooner, resources are better allocated, and delays are minimised. The use of cloud and distributed systems enables the application to achieve scalability and efficiency. Risk classification and scheduling tasks can be executed in parallel across distributed nodes, allowing the system to handle large volumes of patient data effectively. The infrastructure supports self-healing and automatic scaling, ensuring reliability during peak demand and minimizing downtime in the event of failures.
