@@ -1,0 +1,10 @@
+FROM mariadb:11.4
+
+ENV MYSQL_ROOT_PASSWORD=root123
+ENV MYSQL_DATABASE=mydb
+ENV MYSQL_USER=user
+ENV MYSQL_PASSWORD=pass123
+
+COPY init.sql /docker-entrypoint-initdb.d/
+
+EXPOSE 3306

@@ -1,0 +1,14 @@
+syntax = "proto3";
+package authentication;
+service Authentication{
+  rpc is_credential_correct(Credentials) returns (Reply) {}
+}
+
+message Credentials{
+  string x = 1;
+  string y = 2;
+}
+
+message Reply{
+  bool x = 1;
+}
