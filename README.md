@@ -10,9 +10,15 @@ We plan to have features that include an authentication system for healthcare pr
 
 ## How to run
 
-1) docker compose run --build
+1. Use docker compose
+~~~bash  
+docker compose run --build
+~~~
 
-2) Go to localhost:3000
+2. Go to your localhost with port 3000
+~~~bash  
+http://localhost:3000
+~~~  
 
 
 
