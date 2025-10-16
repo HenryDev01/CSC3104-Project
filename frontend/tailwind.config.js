@@ -15,6 +15,9 @@ module.exports = {
         'fadeUp-delay-400': 'fadeUp 0.8s ease-out 0.4s forwards',
 
       },
+      fontFamily: {
+        sans: ['Roboto', 'Arial', 'sans-serif'],
+      },
     },
   },
   plugins: [],
