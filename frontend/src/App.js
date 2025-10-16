@@ -1,5 +1,6 @@
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import {Login} from './pages/Login'
+import { Home } from './pages/Home';
 import {PatientForm} from './pages/PatientForm'
 import {PatientList} from './pages/PatientList'
 import {PatientRiskDetail} from './pages/PatientRiskDetail'
@@ -11,6 +12,7 @@ function App() {
     <Router>
         <Routes>
             <Route path = "/" element={<Login/>} />
+            <Route path="/home" element={<Home />} />
             <Route path = "/patient_form" element={<PatientForm/>} />
             <Route path = "/patient_list" element={<PatientList/>} />
             <Route path = "/patient_detail" element={<PatientRiskDetail/>} />

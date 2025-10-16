@@ -28,6 +28,12 @@ services:
     depends_on:
       database:
         condition: service_healthy
+    environment:
+      - DB_HOST=database
+      - DB_PORT=3306
+      - DB_USER=user
+      - DB_PASSWORD=pass123
+      - DB_NAME=Project
 
   list-patient-service:
     container_name: list-patient-service
