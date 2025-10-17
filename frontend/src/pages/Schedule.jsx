@@ -19,9 +19,9 @@ const generateMonthDays = (year, month) => {
 
 export function Schedule() {
       const today = new Date();
-      const [selectedDate, setSelectedDate] = useState(null);
+      const [selectedDate, setSelectedDate] = useState(today);
       const [selectedSlot, setSelectedSlot] = useState(null);
-      const [currentMonth, setCurrentMonth] = useState(new Date());
+      const [currentMonth, setCurrentMonth] = useState(today);
       const days = generateMonthDays(currentMonth.getFullYear(), currentMonth.getMonth());
       const weekdayHeaders = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
       const month = today.getMonth();
@@ -84,7 +84,7 @@ export function Schedule() {
                       onClick={() => {
                       const prevMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1);
                       setCurrentMonth(prevMonth);
-                      setSelectedDate(null); // reset selected date if you want
+                      setSelectedDate(today); // reset selected date if you want
                     }}>Previous</button>
                     </div>
 
@@ -92,7 +92,7 @@ export function Schedule() {
                         <button className ="px-3 py-2 rounded shadow font-semibold bg-white"  style ={{"color":"#d94f70"}} onClick={() => {
                           const nextMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1);
                           setCurrentMonth(nextMonth);
-                          setSelectedDate(null); // reset selected date if you want
+                          setSelectedDate(today); // reset selected date if you want
                         }}>Next</button>
                    </div>
                 </div>
