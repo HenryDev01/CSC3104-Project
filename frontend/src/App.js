@@ -17,6 +17,7 @@ function App() {
             <Route path = "/patient_list" element={<PatientList/>} />
             <Route path="/patient/:id" element={<PatientDetails />} />
             <Route path = "/schedule" element={<Schedule/>} />
+            <Route path="/patient_form/:id" element={<PatientForm />} />
         </Routes>
     </Router>
   );
