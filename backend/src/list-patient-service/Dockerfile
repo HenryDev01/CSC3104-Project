@@ -4,5 +4,5 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 COPY Utils .
-EXPOSE 5002
+EXPOSE 5002 50052
 CMD ["python", "app.py"]

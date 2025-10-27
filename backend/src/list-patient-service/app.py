@@ -1,7 +1,10 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import mysql.connector
-from Utils.db import get_db_connection
+from Model.ListPatientService import PatientServiceServicer
+from concurrent import futures
+import list_patient_pb2_grpc
+import grpc
+import threading
 
 app = Flask(__name__)
 CORS(app)
@@ -21,10 +24,14 @@ def getLogin():
 
 
 
+def serve():
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    list_patient_pb2_grpc.add_PatientServiceServicer_to_server(PatientServiceServicer(), server)
+    server.add_insecure_port("[::]:50052")
+    print("🚀 gRPC Patient Service running on port 50052")
+    server.start()
+    server.wait_for_termination()
+
+
 if __name__ == "__main__":
-    db = get_db_connection()
-    cursor = db.cursor()
-    cursor.execute("SHOW DATABASES")
-    data = cursor.fetchall()
-    print(data)
-    app.run(host="0.0.0.0", port=5002,debug=True)
+    serve()
