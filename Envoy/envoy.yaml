@@ -29,17 +29,22 @@ static_resources:
                           route:
                             cluster: auth-service
                         - match:
-                            prefix: "/list"
+                            prefix: "/patient.PatientService/"
                           route:
                             cluster: list-patient-service
-
+                        - match:
+                            prefix: "/risk.RiskService/"
+                          route:
+                              cluster: risk-app-service
                       cors:
                         allow_origin_string_match:
                           - prefix: "*"
                         allow_methods: GET, PUT, DELETE, POST, OPTIONS
-                        allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout
+                        allow_headers: keep-alive,user-agent,cache-control,content-type,content-transfer-encoding,custom-header-1,x-accept-content-transfer-encoding,x-accept-response-streaming,x-user-agent,x-grpc-web,grpc-timeout,authorization
                         max_age: "1728000"
                         expose_headers: custom-header-1,grpc-status,grpc-message
+
+
 
                 http_filters:
                   - name: envoy.filters.http.cors
@@ -70,11 +75,11 @@ static_resources:
                       port_value: 50051
 
 
-    # example of routing with http (flask) if needed
     - name: list-patient-service
       type: STRICT_DNS
       connect_timeout: 0.25s
       lb_policy: round_robin
+      http2_protocol_options: {}
       load_assignment:
         cluster_name: list-patient-service
         endpoints:
@@ -83,7 +88,23 @@ static_resources:
                   address:
                     socket_address:
                       address: list-patient-service
-                      port_value: 5002
+                      port_value: 50052
+
+
+    - name: risk-app-service
+      type: STRICT_DNS
+      connect_timeout: 0.25s
+      lb_policy: round_robin
+      http2_protocol_options: {}
+      load_assignment:
+        cluster_name: risk-app-service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: risk-app-service
+                      port_value: 50054
 
 
 
