@@ -59,16 +59,24 @@ export function Login() {
     <div className="flex items-center justify-end bg-[url(../img/bg/2.jpg)] bg-cover bg-center bg-no-repeat min-h-screen">
       <div className="absolute inset-0 backdrop-blur-xs bg-black/10"></div>
 
-      <div className="relative z-10 flex-1 p-12 bg-gradient-to-b from-[#9ddedd] to-[#b8ebe6] text-center font-sans">
-        <h1 className="animate-fadeUp-delay-400 text-4xl font-bold mb-2 text-[#E2A5A7] text-shadow-lg tracking-widest">
-          WELCOME BACK
-        </h1>
-        <p className="animate-fadeUp-delay-400 text-lg mb-2 font-bold text-[#E2A5A7] text-shadow-sm">
+      <div className="relative z-10 flex-1 p-12 bg-gradient-to-b from-[#9ddedd] to-[#b8ebe6]  font-sans">
+{/*          <div className="bg-white text-blue-700 rounded-full p-1 mr-3"> */}
+{/*             </div> */}
+        <span><h1 className="animate-fadeUp-delay-400 text-xl font-bold mb-1 text-[#1a4d4a] text-shadow-lg tracking-widest">
+          HEALTHACK
+        </h1></span>
+        <p className="animate-fadeUp-delay-400 text-lg mb-3   text-[#1a4d4a] text-shadow-sm">
           Your AI health classification journey continues here
         </p>
+         <ul className="space-y-3 text-sm md:text-base">
+            <li className="flex items-center text-[#1a4d4a]  justify-center md:justify-start"><span className="w-2 h-2  bg-green-400 rounded-full mr-2"></span>Risk Classification</li>
+            <li className="flex items-center text-[#1a4d4a] justify-center md:justify-start"><span className="w-2 h-2 text-[#E2A5A7] bg-green-400 rounded-full mr-2"></span>Optimized Scheduling</li>
+          </ul>
+
+
       </div>
 
-      <form className="relative z-10 bg-white p-8 min-h-screen" onSubmit={handleLogin}>
+      <form className="relative z-10 bg-white p-12 min-h-screen" onSubmit={handleLogin}>
         {/* Logo */}
         <div className="flex justify-center">
           <div
@@ -100,7 +108,7 @@ export function Login() {
         {/* Login Button */}
         <button
           type="submit"
-          className="bg-[#E2A5A7] shadow-cyan-500/50 text-white w-full py-3 rounded-lg hover:bg-cyan-700 transition-colors"
+          className="bg-cyan-500 shadow-cyan-500/50 text-white w-full py-3 rounded-lg hover:bg-cyan-700 transition-colors"
         >
           Sign In
         </button>

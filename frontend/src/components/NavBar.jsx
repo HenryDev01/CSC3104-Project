@@ -1,34 +1,28 @@
-import {React,useState} from 'react';
-import ReactDOM from 'react-dom/client';
-import "../styles/index.css"
+import { useState } from "react";
 import { FaHome, FaUsers, FaClipboardList, FaCalendarAlt } from "react-icons/fa";
 
+export function NavigationBar() {
+  const [isOpen, setIsOpen] = useState(false);
 
+  return (
+    <nav className="bg-gradient-to-r from-[#6dd5ed] to-[#2193b0] text-white shadow-lg">
+      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <a href="#" className="flex items-center space-x-2">
+         <a href="/home"> <h1 className="text-2xl font-bold font-sans">HealthHack</h1></a>
+        </a>
 
-export function NavigationBar()
-{
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-    <nav className="bg-[#e2a5a7] text-white shadow-md w-100">
-      <div className="max-w-7xl mx-auto px-6 py-3 flex justify-start items-center space-x-8 transition-colors">
-          <a href="#" className="flex items-center space-x-2 hover:text-[#d94f70]">
-              <h1 className="text-2xl font-sans font-bold mb-0">HealthHack</h1>
-        </a>
-        <a href="/patient_list" className="flex items-center space-x-2 hover:text-[#000000] ">
-          <FaUsers />
-          <span className = "font-sans">Patients</span>
-        </a>
-        <a href="/patient_form" className="flex items-center space-x-2 hover:text-[#000000] ">
-          <FaClipboardList />
-          <span className = "font-sans" >Risk Classifier</span>
-        </a>
-        <a href="/schedule" className="flex items-center space-x-2 hover:text-[#000000]">
-          <FaCalendarAlt />
-          <span className = "font-sans">Schedule</span>
-        </a>
+        {/* Desktop Links */}
+        <div className="hidden md:flex items-center space-x-6">
+          <NavLink href="/patient_list" Icon={FaUsers} label="Patients" />
+          <NavLink href="/patient_form" Icon={FaClipboardList} label="Risk Classifier" />
+          <NavLink href="/schedule" Icon={FaCalendarAlt} label="Schedule" />
+        </div>
+
+        {/* Mobile Menu Button */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden focus:outline-none"
+          className="md:hidden focus:outline-none p-2 rounded hover:bg-white hover:text-[#2193b0] transition"
         >
           <svg
             className="w-6 h-6"
@@ -46,15 +40,37 @@ export function NavigationBar()
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-blue-500 px-4 pb-3 space-y-2">
-            <a href="#" className="hover:text-blue-200">Home</a>
-          <a href="/patient_list" className="hover:text-blue-200">Patients</a>
-          <a href="/patient_form" className="hover:text-blue-200">Risk Classifier</a>
-          <a href="/schedule" className="hover:text-blue-200">Schedule</a>
-
+        <div className="md:hidden bg-white text-[#2193b0] px-4 pb-4 space-y-2 shadow-inner rounded-b-lg">
+          <MobileNavLink href="/patient_list" label="Patients" />
+          <MobileNavLink href="/patient_form" label="Risk Classifier" />
+          <MobileNavLink href="/schedule" label="Schedule" />
         </div>
       )}
     </nav>
+  );
+}
+
+function NavLink({ href, Icon, label }) {
+  return (
+    <a
+      href={href}
+      className="flex items-center space-x-2 px-3 py-2 rounded hover:bg-white hover:text-[#2193b0] transition"
+    >
+      <Icon />
+      <span>{label}</span>
+    </a>
+  );
+}
+
+function MobileNavLink({ href, label }) {
+  return (
+    <a
+      href={href}
+      className="block px-3 py-2 rounded hover:bg-[#e0f2f1] transition"
+    >
+      {label}
+    </a>
   );
 }
