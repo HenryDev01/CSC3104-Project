@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from model.Auth import AuthenticationService
 from concurrent import futures
-from Utils.db import get_db_connection
 import auth_pb2_grpc
 import grpc
 import threading
