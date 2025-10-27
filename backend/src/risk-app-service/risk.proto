@@ -1,0 +1,33 @@
+syntax = "proto3";
+package risk;
+
+
+service RiskService {
+rpc SubmitRisk(SubmitRequest) returns (SubmitResponse);
+rpc GetRisk(GetRequest) returns (GetResponse);
+}
+
+
+message SubmitRequest {
+string site_id = 1;
+string features_json = 2;
+}
+
+
+message SubmitResponse {
+string patient_id = 1;
+}
+
+
+message GetRequest {
+string patient_id = 1;
+}
+
+
+message GetResponse {
+  string probs = 1;
+  string patient_id = 2;
+  string site_id = 3;
+  string risk_group = 4;
+  string disease_groups = 5;
+}
