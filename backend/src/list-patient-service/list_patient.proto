@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package patient;
+
+// Service to list or query patient data
+service PatientService {
+  rpc ListPatients (ListPatientsRequest) returns (ListPatientsResponse);
+}
+
+message ListPatientsRequest {
+  string name = 1;        // optional filter (search by name)
+  int32 page_number = 2;  // pagination
+  int32 page_size = 3;
+  string sort_by = 4;     // column name to sort by
+  string sort_order = 5;  // "asc" or "desc"
+}
+
+message Patient {
+  int32 patient_id = 1;
+  string name = 2;
+  int32 age = 3;
+  int32 gender = 4;
+  float diabetes = 5;
+  float hmod = 6;
+  float ckd = 7;
+  float cvd = 8;
+  float chd = 9;
+  string risk_category_id = 10;
+}
+
+message ListPatientsResponse {
+  repeated Patient patients = 1;
+  int32 total_count = 2;
+}
