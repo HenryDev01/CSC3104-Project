@@ -1,0 +1,64 @@
+{
+  "feature_cols": [
+    "Serum Creatinine(mg/dL)",
+    "eGFR(ml/min/1.73m-square)",
+    "UACR(mg/g)",
+    "FBG(mg/dL)",
+    "HbA1c(%)",
+    "LV Mass(g/m-square)",
+    "Resting pulse(beats/minute)",
+    "Microalbuminuria(mg/day)",
+    "PWV(m/s)",
+    "ABI",
+    "Age (years)",
+    "Total Cholesterol  (mg/dl)",
+    "HDL(mg/dl)",
+    "BP(mm of Hg)",
+    "Average Daily Steps",
+    "LDL(mg/dl)",
+    "CACS",
+    "Smoking (packs/year)",
+    "NT-proBNP levels(pg/ml)",
+    "Sex(M=1/F=0)"
+  ],
+  "num_cols": [
+    "Serum Creatinine(mg/dL)",
+    "eGFR(ml/min/1.73m-square)",
+    "UACR(mg/g)",
+    "FBG(mg/dL)",
+    "HbA1c(%)",
+    "LV Mass(g/m-square)",
+    "Resting pulse(beats/minute)",
+    "Microalbuminuria(mg/day)",
+    "PWV(m/s)",
+    "ABI",
+    "Age (years)",
+    "Total Cholesterol  (mg/dl)",
+    "HDL(mg/dl)",
+    "Average Daily Steps",
+    "LDL(mg/dl)",
+    "CACS",
+    "Smoking (packs/year)",
+    "NT-proBNP levels(pg/ml)",
+    "Sex(M=1/F=0)"
+  ],
+  "cat_cols": [
+    "BP(mm of Hg)"
+  ],
+  "target_cols": [
+    "Did hard CHD occured?(1=Present,0=Absent)",
+    "CVD(1=Present,0=Absent)",
+    "CKD(1=Present,0=Absent)",
+    "DM(1=Present,0=Absent)",
+    "HMOD(1=Present,0=Absent)"
+  ],
+  "heads": [
+    "chd",
+    "cvd",
+    "ckd",
+    "dm",
+    "hmod"
+  ],
+  "dropped_cols_high_null_or_constant": [],
+  "transformed_dim": 1229
+}
