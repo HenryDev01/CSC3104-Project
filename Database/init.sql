@@ -4,7 +4,7 @@ CREATE TABLE Risk (
 );
 
 CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY AUTO_INCREMENT,
+    PatientID INT PRIMARY KEY,
     Name varchar(150),
     Age INT,
     Gender TINYINT,
