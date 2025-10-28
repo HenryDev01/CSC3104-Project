@@ -36,6 +36,10 @@ static_resources:
                             prefix: "/risk.RiskService/"
                           route:
                               cluster: risk-app-service
+                        - match:
+                            prefix: "/patient.PatientDetailService/"
+                          route:
+                            cluster: patient-detail-service
                       cors:
                         allow_origin_string_match:
                           - prefix: "*"
@@ -90,6 +94,21 @@ static_resources:
                       address: list-patient-service
                       port_value: 50052
 
+    - name: patient-detail-service
+      type: STRICT_DNS
+      connect_timeout: 0.25s
+      lb_policy: round_robin
+      http2_protocol_options: { }
+      load_assignment:
+        cluster_name: patient-detail-service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: patient-detail-service
+                      port_value: 50053
+
 
     - name: risk-app-service
       type: STRICT_DNS
@@ -105,6 +124,7 @@ static_resources:
                     socket_address:
                       address: risk-app-service
                       port_value: 50054
+
 
 
 
