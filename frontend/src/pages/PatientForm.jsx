@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import { NavigationBar } from "../components/NavBar";
 import { PatientServiceClient } from "../proto/list_patient/list_patient_grpc_web_pb";
@@ -185,6 +186,15 @@ export function PatientForm() {
                                 ))}
                               </div>
                             )}
+                          </div>
+
+                          <div className="mt-6 flex gap-4 justify-center">
+                            <Link 
+                              to="/schedule" 
+                              className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold shadow-md transition"
+                            >
+                              📅 View Appointment Schedule
+                            </Link>
                           </div>
                   </div>
                         )}
