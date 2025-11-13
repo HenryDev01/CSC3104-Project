@@ -2,13 +2,24 @@ syntax = "proto3";
 package authentication;
 service Authentication{
   rpc is_credential_correct(Credentials) returns (Reply) {}
+  rpc validate_token(TokenRequest) returns (TokenReply) {}
 }
 
 message Credentials{
-  string x = 1;
-  string y = 2;
+  string username = 1;
+  string password = 2;
 }
 
 message Reply{
-  bool x = 1;
+  bool is_valid = 1;
+  string token = 2;
+}
+
+message TokenRequest {
+  string token = 1;
+}
+
+message TokenReply {
+  bool valid = 1;
+  string username = 2;
 }

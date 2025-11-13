@@ -135,5 +135,66 @@ proto.patient.PatientServicePromiseClient.prototype.listPatients =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.patient.Empty,
+ *   !proto.patient.ListPatientsResponse>}
+ */
+const methodDescriptor_PatientService_ListAllPatients = new grpc.web.MethodDescriptor(
+  '/patient.PatientService/ListAllPatients',
+  grpc.web.MethodType.UNARY,
+  proto.patient.Empty,
+  proto.patient.ListPatientsResponse,
+  /**
+   * @param {!proto.patient.Empty} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.patient.ListPatientsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.patient.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.patient.ListPatientsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.patient.ListPatientsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.patient.PatientServiceClient.prototype.listAllPatients =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/patient.PatientService/ListAllPatients',
+      request,
+      metadata || {},
+      methodDescriptor_PatientService_ListAllPatients,
+      callback);
+};
+
+
+/**
+ * @param {!proto.patient.Empty} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.patient.ListPatientsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.patient.PatientServicePromiseClient.prototype.listAllPatients =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/patient.PatientService/ListAllPatients',
+      request,
+      metadata || {},
+      methodDescriptor_PatientService_ListAllPatients);
+};
+
+
 module.exports = proto.patient;
 

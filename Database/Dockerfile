@@ -7,4 +7,4 @@ ENV MYSQL_PASSWORD=pass123
 
 COPY init.sql /docker-entrypoint-initdb.d/
 
-EXPOSE 3306
+EXPOSE 3309

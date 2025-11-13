@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-service
+spec:
+  type: NodePort   # Exposes the service outside the cluster
+  selector:
+    app: auth-service
+  ports:
+    - name: grpc
+      port: 50051
+      targetPort: 50051
+      nodePort: 30051  # optional: pick port to access outside
+    - name: metrics
+      port: 8000
+      targetPort: 8000
+      nodePort: 30080

@@ -1,85 +1,163 @@
 import { useNavigate } from "react-router-dom";
+import { NavigationBar } from "../components/NavBar";
 import { useEffect, useState } from "react";
+import { AuthenticationClient } from '../proto/auth_grpc_web_pb';
+import { TokenRequest } from '../proto/auth_pb';
 import "../styles/index.css";
+import {
+  Heart,
+  Users,
+  ClipboardList,
+  Calendar,
+  TrendingUp,
+  TrendingDown,
+  Activity,
+  AlertCircle,
+  CheckCircle,
+  Clock,
+  ArrowRight
+} from "lucide-react";
+import { LineChart, Line, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+
+
+const auth_client = new AuthenticationClient(
+  window.location.hostname === 'localhost'
+    ? 'http://localhost:10000'
+    : 'http://envoy-service:10000'
+);
+
 
 export function Home() {
-  const navigate = useNavigate();
   const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-  useEffect(() => {
-    const storedName = localStorage.getItem("username");
-    if (!storedName) {
-      // If username does not exist, send back to login
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+
+        navigate("/");
+        return;
+      }
+
+  const req = new TokenRequest();
+  req.setToken(token);
+
+  auth_client.validate_token(req, {}, (err, res) => {
+    if (err) {
+      navigate("/");
+      return;
+    }
+
+    if (!res.getValid()) {
       navigate("/");
     } else {
-      setUsername(storedName);
+      setUsername(res.getUsername());
     }
-  }, [navigate]);
+  });
+}, [navigate]);
 
-  const services = [
+  const handleNavigation = (path) => {
+    navigate(path)
+    // In your actual app, this would use: navigate(path)
+  };
+
+
+   const quickActions = [
     {
-      name: "Consultation Form",
-      icon: "🩺",
+      name: "New Assessment",
+      icon: <ClipboardList className="w-6 h-6" />,
       path: "/patient_form",
-      color: "from-[#9ddedd] to-[#b8ebe6]",
+      color: "from-blue-500 to-blue-600",
+      description: "Start risk analysis"
     },
     {
-      name: "Patient List",
-      icon: "📋",
+      name: "Patient Records",
+      icon: <Users className="w-6 h-6" />,
       path: "/patient_list",
-      color: "from-[#E2A5A7] to-[#f4c2c2]",
+      color: "from-purple-500 to-purple-600",
+      description: "View all patients"
     },
     {
       name: "Schedule",
-      icon: "🗓️",
+      icon: <Calendar className="w-6 h-6" />,
       path: "/schedule",
-      color: "from-[#b2c7f0] to-[#cce0ff]",
+      color: "from-indigo-500 to-indigo-600",
+      description: "Manage appointments"
     },
     {
-      name: "Risk Detail",
-      icon: "⚕️",
-      path: "/patient_detail",
-      color: "from-[#ffd59e] to-[#fff1b8]",
-    },
+      name: "Doctor's Availability",
+      icon: <TrendingUp className="w-6 h-6" />,
+      path: "/doctor_availability",
+      color: "from-emerald-500 to-emerald-600",
+      description: "Manage doctor's time sheet"
+    }
   ];
 
+
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-[url(../img/bg/2.jpg)] bg-cover bg-center bg-no-repeat relative">
-      {/* background blur overlay */}
-      <div className="absolute inset-0 backdrop-blur-xs bg-black/10"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Navigation Bar */}
+      <NavigationBar />
 
-      {/* main container */}
-      <div className="relative z-10 bg-white/80  shadow-lg p-10 w-11/12 md:w-3/4 lg:w-2/3 text-center">
-        <h1 className="text-4xl font-bold text-[#E2A5A7] mb-8 tracking-widest">
-          Welcome, {username} 👋
-        </h1>
-        <p className="text-gray-600 mb-10 text-lg">
-          Choose a service below to continue your healthcare workflow
-        </p>
-
-        {/* service grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-          {services.map((service, index) => (
-            <div
-              key={index}
-              onClick={() => navigate(service.path)}
-              className={`cursor-pointer rounded-2xl p-8 shadow-md transition transform hover:scale-105 bg-gradient-to-b ${service.color}`}
-            >
-              <div className="text-5xl mb-4">{service.icon}</div>
-              <h2 className="text-xl font-semibold text-gray-800">{service.name}</h2>
+      {/* Header */}
+      <div className="bg-white border-b border-slate-200 shadow-sm">
+        <div className="max-w-7xl mx-auto px-6 py-6">
+          <div className="flex items-center justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-slate-800 mb-1">
+                Welcome back, {username} 👋
+              </h1>
+              <p className="text-slate-600">What would you like to do today?</p>
             </div>
-          ))}
+            <button
+            onClick={() => {
+                localStorage.removeItem("token"); // remove your token
+                window.location.href = "/";  // optional: redirect to login page
+              }}
+            className="px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        {/* Welcome Message */}
+        <div className="text-center mb-12">
+          <h2 className="text-2xl font-bold text-slate-800 mb-3">
+            Risk Assessment System
+          </h2>
+          <p className="text-slate-600 max-w-2xl mx-auto">
+            Access patient records, perform risk assessments, and manage appointments all in one place.
+          </p>
         </div>
 
-        <button
-            onClick={() => {
-                localStorage.removeItem("username");
-                navigate("/");
-                }}
-            className="mt-10 px-6 py-2 bg-[#E2A5A7] text-white rounded-lg hover:bg-[#c78587] transition w-full"
-        >
-          Logout
-        </button>
+        {/* Quick Actions */}
+        <div className="max-w-4xl mx-auto">
+          <h3 className="text-lg font-semibold text-slate-700 mb-6 text-center">Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {quickActions.map((action, index) => (
+              <button
+                key={index}
+                className={`group relative overflow-hidden bg-white rounded-2xl p-8 shadow-md hover:shadow-xl transition-all duration-300 border-2 border-slate-200 hover:border-transparent text-left`}
+                onClick={() => handleNavigation(action.path)}
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${action.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+                <div className="relative z-10">
+                  <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center text-white mb-4 group-hover:scale-110 transition-transform duration-300`}>
+                    {action.icon}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-800 mb-2">{action.name}</h3>
+                  <p className="text-slate-600">{action.description}</p>
+                  <ArrowRight className="w-5 h-5 text-slate-400 mt-3 group-hover:translate-x-1 transition-transform duration-300" />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+
       </div>
     </div>
   );

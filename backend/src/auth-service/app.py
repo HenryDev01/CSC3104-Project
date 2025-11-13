@@ -1,13 +1,10 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 from model.Auth import AuthenticationService
 from concurrent import futures
+from prometheus_client import start_http_server
 import auth_pb2_grpc
 import grpc
 import threading
 
-app = Flask(__name__)
-CORS(app)
 
 # THIS FILE IS RUNNING USING JUST GRPC WITHOUT FLASK. FLASK CODE IS HERE JUST FOR EXAMPLE
 # YOU CAN PICK EITHER ONE
@@ -22,6 +19,7 @@ def serve_grpc():
     server.wait_for_termination()
 
 if __name__ == "__main__":
+    start_http_server(8000)
     grpc_thread = threading.Thread(target=serve_grpc)
     grpc_thread.start()
 

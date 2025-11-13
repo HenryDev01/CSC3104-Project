@@ -1,0 +1,19 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: auth-service-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: auth-service
+  minReplicaCount: 1
+  maxReplicaCount: 5
+  cooldownPeriod: 30
+  pollingInterval: 15
+  triggers:
+  - type: prometheus
+    metadata:
+      serverAddress: "http://host.docker.internal:9090"
+      metricName: "incoming_requests_total"
+      query: "sum(rate(incoming_requests_total[30s]))"
+      threshold: "0.5"

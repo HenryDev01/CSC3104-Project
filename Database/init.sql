@@ -4,7 +4,7 @@ CREATE TABLE Risk (
 );
 
 CREATE TABLE Patient (
-    PatientID INT PRIMARY KEY,
+    PatientID varchar(200) PRIMARY KEY,
     Name varchar(150),
     Age INT,
     Gender TINYINT,
@@ -19,7 +19,7 @@ CREATE TABLE Patient (
 
 CREATE TABLE GeneralInformation (
     InfoID INT PRIMARY KEY AUTO_INCREMENT,
-    PID INT,
+    PID varchar(200) ,
     AvgDailySteps INT,
     HDL INT,
     LDL INT,
@@ -32,7 +32,7 @@ CREATE TABLE GeneralInformation (
 
 CREATE TABLE DiabetesInformation (
     DiabetesID INT PRIMARY KEY AUTO_INCREMENT,
-    PID INT,
+    PID varchar(200) ,
     FBG INT,
     HbA1c FLOAT,
     TestDate DATE,
@@ -41,7 +41,7 @@ CREATE TABLE DiabetesInformation (
 
 CREATE TABLE HMODInformation (
     HMODID INT PRIMARY KEY AUTO_INCREMENT,
-    PID INT,
+    PID varchar(200) ,
     LVMass INT,
     Microalbuminuria INT,
     PWV FLOAT,
@@ -52,7 +52,7 @@ CREATE TABLE HMODInformation (
 
 CREATE TABLE CKDInformation (
     CKDID INT PRIMARY KEY AUTO_INCREMENT,
-    PID INT,
+    PID varchar(200) ,
     SerumCreatinine FLOAT,
     eGFR INT,
     UACR INT,
@@ -62,44 +62,15 @@ CREATE TABLE CKDInformation (
 
 CREATE TABLE CVDInformation (
     CVDID INT PRIMARY KEY AUTO_INCREMENT,
-    PID INT,
+    PID varchar(200) ,
     BP VARCHAR(20),
     Smoking INT,
     TestDate DATE,
     FOREIGN KEY (PID) REFERENCES Patient(PatientID)
 );
 
-CREATE TABLE Roles (
-    RoleID INT PRIMARY KEY AUTO_INCREMENT,
-    RoleName VARCHAR(50) UNIQUE
-);
-
-CREATE TABLE Users(
-   userID INT PRIMARY KEY AUTO_INCREMENT,
-   username varchar(100) UNIQUE,
-   password varchar(100),
-   RoleID INT,
-   FOREIGN KEY (RoleID) REFERENCES Roles(RoleID)
-
-);
-
-
 INSERT INTO Risk (RiskCategoryID, Description) VALUES
-('P1', 'Highest Risk'),
-('P2', 'Moderate High Risk'),
-('P3', 'Moderate Risk'),
-('P4', 'Lowest Risk');
-
-INSERT INTO Roles (RoleID, RoleName) VALUES
-(1, 'Admin'),
-(2, 'Doctor'),
-(3, 'Nurse');
-
-
-INSERT INTO Users (username, password, RoleID) VALUES
-("Henry", "Password123", 1),
-("Dannon", "Password123", 1),
-("Josaiah", "Password123",1),
-("BaoQuan", "Password123", 1),
-("HanSheng", "Password123", 2),
-("Pranawi", "Password123", 3);
+('P1', 'HIGH RISK'),
+('P2', 'MODERATE RISK'),
+('P3', 'MODERATE'),
+('P4', 'LOW');

@@ -40,6 +40,14 @@ static_resources:
                             prefix: "/patient.PatientDetailService/"
                           route:
                             cluster: patient-detail-service
+                        - match:
+                            prefix: "/scheduler.SchedulerService/"
+                          route:
+                            cluster: scheduler-service
+                        - match:
+                            prefix: "/api/scheduler"
+                          route:
+                            cluster: scheduler-flask-service
                       cors:
                         allow_origin_string_match:
                           - prefix: "*"
@@ -75,8 +83,8 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: auth-service
-                      port_value: 50051
+                      address: host.docker.internal  # ⬅️ CHANGED from auth-service.default.svc.cluster.local
+                      port_value: 30051  # ⬅️ CHANGED from 50051 to use NodePort
 
 
     - name: list-patient-service
@@ -91,8 +99,8 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: list-patient-service
-                      port_value: 50052
+                      address: host.docker.internal # changed from list-patient-service
+                      port_value: 30052 # changed from 50052
 
     - name: patient-detail-service
       type: STRICT_DNS
@@ -124,6 +132,38 @@ static_resources:
                     socket_address:
                       address: risk-app-service
                       port_value: 50054
+
+    - name: scheduler-service
+      type: STRICT_DNS
+      connect_timeout: 0.25s
+      lb_policy: round_robin
+      http2_protocol_options: { }
+      load_assignment:
+        cluster_name: scheduler-service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: scheduler-service
+                      port_value: 50055
+
+    - name: scheduler-flask-service
+      type: logical_dns
+      connect_timeout: 0.25s
+      lb_policy: round_robin
+      load_assignment:
+        cluster_name: scheduler-flask-service
+        endpoints:
+          - lb_endpoints:
+              - endpoint:
+                  address:
+                    socket_address:
+                      address: scheduler-service
+                      port_value: 5005
+
+
+
 
 
 

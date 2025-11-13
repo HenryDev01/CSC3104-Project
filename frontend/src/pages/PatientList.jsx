@@ -3,8 +3,12 @@ import { useNavigate } from "react-router-dom"; // ✅ Add this for navigation
 import { NavigationBar } from "../components/NavBar";
 import { PatientServiceClient } from "../proto/list_patient/list_patient_grpc_web_pb";
 import { ListPatientsRequest } from "../proto/list_patient/list_patient_pb";
+import { AuthenticationClient } from '../proto/auth_grpc_web_pb';
+import { TokenRequest } from '../proto/auth_pb';
 
 export function PatientList() {
+    const [username, setUsername] = useState('');
+
   const [patients, setPatients] = useState([]);
   const [search, setSearch] = useState("");
   const [sortKey, setSortKey] = useState("");
@@ -12,9 +16,38 @@ export function PatientList() {
   const [page, setPage] = useState(1);
   const [pageSize] = useState(10);
   const [totalCount, setTotalCount] = useState(0);
+  const navigate = useNavigate();
+
+  const auth_client = new AuthenticationClient("http://localhost:10000");
 
   const client = new PatientServiceClient("http://localhost:10000");
-  const navigate = useNavigate();
+
+
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+
+        navigate("/");
+        return;
+      }
+
+  const req = new TokenRequest();
+  req.setToken(token);
+
+  auth_client.validate_token(req, {}, (err, res) => {
+    if (err) {
+      navigate("/");
+      return;
+    }
+
+    if (!res.getValid()) {
+      navigate("/");
+    } else {
+      setUsername(res.getUsername());
+    }
+  });
+}, [navigate]);
+
   const fetchPatients = () => {
     const req = new ListPatientsRequest();
     req.setName(search);
@@ -70,11 +103,19 @@ export function PatientList() {
   return (
     <>
       <NavigationBar />
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto px-6 py-12">
 
-      <div className="max-w-7xl mx-auto px-4 py-6 bg-gray-50 min-h-screen">
-        <div className="bg-white p-12 rounded-lg shadow-lg border border-gray-200 mb-6">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Patient List</h2>
-
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-8">
+              <h2 className="text-3xl font-bold text-white mb-2">
+                Patient List
+              </h2>
+              <p className="text-blue-100">
+                Total patients scanned
+              </p>
+            </div>
+          <div class = "p-8">
           <div className="flex items-center space-x-4 mb-4">
             <Legend color="bg-red-200 text-red-800" label="P1: Critical" />
             <Legend color="bg-yellow-200 text-yellow-800" label="P2: Moderate Critical" />
@@ -171,7 +212,9 @@ export function PatientList() {
               Next
             </button>
           </div>
+          </div>
         </div>
+      </div>
       </div>
     </>
   );

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: auth-service
+  labels:
+    app: auth-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: auth-service
+  template:
+    metadata:
+      labels:
+        app: auth-service
+    spec:
+      containers:
+        - name: auth-service
+          image: auth-service:latest
+          imagePullPolicy: Never   # <-- use local image, don't pull
+          ports:
+            - containerPort: 50051  # gRPC
+            - containerPort: 8000   # Prometheus metrics
+          env:
+            - name: DB_HOST
+              value: "host.docker.internal"  # ⬅️ Points to Docker Compose
+            - name: DB_PORT
+              value: "3307"
+            - name: DB_USER
+              value: "user"
+            - name: DB_PASSWORD
+              value: "pass123"
+            - name: DB_NAME
+              value: "Project"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

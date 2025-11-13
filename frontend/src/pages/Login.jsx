@@ -28,8 +28,8 @@ export function Login() {
     }
 
     const req = new Credentials();
-    req.setX(username);
-    req.setY(password);
+    req.setUsername(username);
+    req.setPassword(password);
 
     client.is_credential_correct(req, {}, (err, response) => {
       if (err) {
@@ -37,20 +37,18 @@ export function Login() {
         alert('Login failed. Check console for details.');
         return;
       }
-
-      const correct = response.getX();
-
+      const correct = response.getIsValid();
       console.log('Login response:', correct);
 
       if (!correct) {
         alert("Wrong username or password. Please try again.");
         return;
       }
+          const token = response.getToken();
 
-      // ✅ Save username for Home.jsx
       localStorage.setItem("username", username);
+       localStorage.setItem("token", token);
 
-      // Navigate to home form after successful login
       navigate('/home');
     });
   };

@@ -135,5 +135,66 @@ proto.authentication.AuthenticationPromiseClient.prototype.is_credential_correct
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.authentication.TokenRequest,
+ *   !proto.authentication.TokenReply>}
+ */
+const methodDescriptor_Authentication_validate_token = new grpc.web.MethodDescriptor(
+  '/authentication.Authentication/validate_token',
+  grpc.web.MethodType.UNARY,
+  proto.authentication.TokenRequest,
+  proto.authentication.TokenReply,
+  /**
+   * @param {!proto.authentication.TokenRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.authentication.TokenReply.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.authentication.TokenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.authentication.TokenReply)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.authentication.TokenReply>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.authentication.AuthenticationClient.prototype.validate_token =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/authentication.Authentication/validate_token',
+      request,
+      metadata || {},
+      methodDescriptor_Authentication_validate_token,
+      callback);
+};
+
+
+/**
+ * @param {!proto.authentication.TokenRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.authentication.TokenReply>}
+ *     Promise that resolves to the response
+ */
+proto.authentication.AuthenticationPromiseClient.prototype.validate_token =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/authentication.Authentication/validate_token',
+      request,
+      metadata || {},
+      methodDescriptor_Authentication_validate_token);
+};
+
+
 module.exports = proto.authentication;
 

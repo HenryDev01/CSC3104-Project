@@ -24,19 +24,21 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12list_patient.proto\x12\x07patient\"p\n\x13ListPatientsRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bpage_number\x18\x02 \x01(\x05\x12\x11\n\tpage_size\x18\x03 \x01(\x05\x12\x0f\n\x07sort_by\x18\x04 \x01(\t\x12\x12\n\nsort_order\x18\x05 \x01(\t\"\xa9\x01\n\x07Patient\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\x0e\n\x06gender\x18\x04 \x01(\x05\x12\x10\n\x08\x64iabetes\x18\x05 \x01(\x02\x12\x0c\n\x04hmod\x18\x06 \x01(\x02\x12\x0b\n\x03\x63kd\x18\x07 \x01(\x02\x12\x0b\n\x03\x63vd\x18\x08 \x01(\x02\x12\x0b\n\x03\x63hd\x18\t \x01(\x02\x12\x18\n\x10risk_category_id\x18\n \x01(\t\"O\n\x14ListPatientsResponse\x12\"\n\x08patients\x18\x01 \x03(\x0b\x32\x10.patient.Patient\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\x32]\n\x0ePatientService\x12K\n\x0cListPatients\x12\x1c.patient.ListPatientsRequest\x1a\x1d.patient.ListPatientsResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x12list_patient.proto\x12\x07patient\"\x07\n\x05\x45mpty\"p\n\x13ListPatientsRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x0bpage_number\x18\x02 \x01(\x05\x12\x11\n\tpage_size\x18\x03 \x01(\x05\x12\x0f\n\x07sort_by\x18\x04 \x01(\t\x12\x12\n\nsort_order\x18\x05 \x01(\t\"\xa9\x01\n\x07Patient\x12\x12\n\npatient_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\x0e\n\x06gender\x18\x04 \x01(\x05\x12\x10\n\x08\x64iabetes\x18\x05 \x01(\x02\x12\x0c\n\x04hmod\x18\x06 \x01(\x02\x12\x0b\n\x03\x63kd\x18\x07 \x01(\x02\x12\x0b\n\x03\x63vd\x18\x08 \x01(\x02\x12\x0b\n\x03\x63hd\x18\t \x01(\x02\x12\x18\n\x10risk_category_id\x18\n \x01(\t\"O\n\x14ListPatientsResponse\x12\"\n\x08patients\x18\x01 \x03(\x0b\x32\x10.patient.Patient\x12\x13\n\x0btotal_count\x18\x02 \x01(\x05\x32\x9f\x01\n\x0ePatientService\x12K\n\x0cListPatients\x12\x1c.patient.ListPatientsRequest\x1a\x1d.patient.ListPatientsResponse\x12@\n\x0fListAllPatients\x12\x0e.patient.Empty\x1a\x1d.patient.ListPatientsResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'list_patient_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_LISTPATIENTSREQUEST']._serialized_start=31
-  _globals['_LISTPATIENTSREQUEST']._serialized_end=143
-  _globals['_PATIENT']._serialized_start=146
-  _globals['_PATIENT']._serialized_end=315
-  _globals['_LISTPATIENTSRESPONSE']._serialized_start=317
-  _globals['_LISTPATIENTSRESPONSE']._serialized_end=396
-  _globals['_PATIENTSERVICE']._serialized_start=398
-  _globals['_PATIENTSERVICE']._serialized_end=491
+  _globals['_EMPTY']._serialized_start=31
+  _globals['_EMPTY']._serialized_end=38
+  _globals['_LISTPATIENTSREQUEST']._serialized_start=40
+  _globals['_LISTPATIENTSREQUEST']._serialized_end=152
+  _globals['_PATIENT']._serialized_start=155
+  _globals['_PATIENT']._serialized_end=324
+  _globals['_LISTPATIENTSRESPONSE']._serialized_start=326
+  _globals['_LISTPATIENTSRESPONSE']._serialized_end=405
+  _globals['_PATIENTSERVICE']._serialized_start=408
+  _globals['_PATIENTSERVICE']._serialized_end=567
 # @@protoc_insertion_point(module_scope)

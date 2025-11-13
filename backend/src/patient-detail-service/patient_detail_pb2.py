@@ -24,29 +24,45 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14patient_detail.proto\x12\x07patient\".\n\x18GetPatientDetailsRequest\x12\x12\n\npatient_id\x18\x01 \x01(\x05\"\xa9\x02\n\x19GetPatientDetailsResponse\x12!\n\x07patient\x18\x01 \x01(\x0b\x32\x10.patient.Patient\x12\x31\n\x0cgeneral_info\x18\x02 \x03(\x0b\x32\x1b.patient.GeneralInformation\x12\x33\n\rdiabetes_info\x18\x03 \x03(\x0b\x32\x1c.patient.DiabetesInformation\x12+\n\thmod_info\x18\x04 \x03(\x0b\x32\x18.patient.HMODInformation\x12)\n\x08\x63kd_info\x18\x05 \x03(\x0b\x32\x17.patient.CKDInformation\x12)\n\x08\x63vd_info\x18\x06 \x03(\x0b\x32\x17.patient.CVDInformation\"\xc3\x01\n\x07Patient\x12\x12\n\npatient_id\x18\x01 \x01(\x05\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\x0e\n\x06gender\x18\x04 \x01(\x05\x12\x10\n\x08\x64iabetes\x18\x05 \x01(\x02\x12\x0c\n\x04hmod\x18\x06 \x01(\x02\x12\x0b\n\x03\x63kd\x18\x07 \x01(\x02\x12\x0b\n\x03\x63vd\x18\x08 \x01(\x02\x12\x0b\n\x03\x63hd\x18\t \x01(\x02\x12\x18\n\x10risk_category_id\x18\n \x01(\t\x12\x18\n\x10risk_description\x18\x0b \x01(\t\"\xb2\x01\n\x12GeneralInformation\x12\x0f\n\x07info_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\x05\x12\x17\n\x0f\x61vg_daily_steps\x18\x03 \x01(\x05\x12\x0b\n\x03hdl\x18\x04 \x01(\x05\x12\x0b\n\x03ldl\x18\x05 \x01(\x05\x12\x13\n\x0b\x63holesterol\x18\x06 \x01(\x02\x12\x0c\n\x04\x63\x61\x63s\x18\x07 \x01(\x05\x12\x15\n\rresting_pulse\x18\x08 \x01(\x05\x12\x11\n\ttest_date\x18\t \x01(\t\"f\n\x13\x44iabetesInformation\x12\x13\n\x0b\x64iabetes_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\x05\x12\x0b\n\x03\x66\x62g\x18\x03 \x01(\x05\x12\r\n\x05hba1c\x18\x04 \x01(\x02\x12\x11\n\ttest_date\x18\x05 \x01(\t\"\x87\x01\n\x0fHMODInformation\x12\x0f\n\x07hmod_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\x05\x12\x0f\n\x07lv_mass\x18\x03 \x01(\x05\x12\x18\n\x10microalbuminuria\x18\x04 \x01(\x05\x12\x0b\n\x03pwv\x18\x05 \x01(\x02\x12\x0b\n\x03\x61\x62i\x18\x06 \x01(\x02\x12\x11\n\ttest_date\x18\x07 \x01(\t\"v\n\x0e\x43KDInformation\x12\x0e\n\x06\x63kd_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\x05\x12\x18\n\x10serum_creatinine\x18\x03 \x01(\x02\x12\x0c\n\x04\x65gfr\x18\x04 \x01(\x05\x12\x0c\n\x04uacr\x18\x05 \x01(\x05\x12\x11\n\ttest_date\x18\x06 \x01(\t\"]\n\x0e\x43VDInformation\x12\x0e\n\x06\x63vd_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\x05\x12\n\n\x02\x62p\x18\x03 \x01(\t\x12\x0f\n\x07smoking\x18\x04 \x01(\x05\x12\x11\n\ttest_date\x18\x05 \x01(\t2r\n\x14PatientDetailService\x12Z\n\x11GetPatientDetails\x12!.patient.GetPatientDetailsRequest\x1a\".patient.GetPatientDetailsResponseb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x14patient_detail.proto\x12\x07patient\"\xab\x02\n\x1bInsertPatientRecordsRequest\x12!\n\x07patient\x18\x01 \x01(\x0b\x32\x10.patient.Patient\x12\x31\n\x0cgeneral_info\x18\x02 \x01(\x0b\x32\x1b.patient.GeneralInformation\x12\x33\n\rdiabetes_info\x18\x03 \x01(\x0b\x32\x1c.patient.DiabetesInformation\x12+\n\thmod_info\x18\x04 \x01(\x0b\x32\x18.patient.HMODInformation\x12)\n\x08\x63kd_info\x18\x05 \x01(\x0b\x32\x17.patient.CKDInformation\x12)\n\x08\x63vd_info\x18\x06 \x01(\x0b\x32\x17.patient.CVDInformation\"@\n\x1cInsertPatientRecordsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"\xa4\x02\n\x14\x43reatePatientRequest\x12!\n\x07patient\x18\x01 \x01(\x0b\x32\x10.patient.Patient\x12\x31\n\x0cgeneral_info\x18\x04 \x01(\x0b\x32\x1b.patient.GeneralInformation\x12\x33\n\rdiabetes_info\x18\x05 \x01(\x0b\x32\x1c.patient.DiabetesInformation\x12+\n\thmod_info\x18\x06 \x01(\x0b\x32\x18.patient.HMODInformation\x12)\n\x08\x63kd_info\x18\x07 \x01(\x0b\x32\x17.patient.CKDInformation\x12)\n\x08\x63vd_info\x18\x08 \x01(\x0b\x32\x17.patient.CVDInformation\"p\n\x15\x43reatePatientResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12\x12\n\npatient_id\x18\x03 \x01(\t\x12!\n\x07patient\x18\x04 \x01(\x0b\x32\x10.patient.Patient\"@\n\x1bUpdatePatientDetailsRequest\x12!\n\x07patient\x18\x01 \x01(\x0b\x32\x10.patient.Patient\"k\n\x1cUpdatePatientDetailsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\x12)\n\x0fupdated_patient\x18\x03 \x01(\x0b\x32\x10.patient.Patient\"\x9c\x02\n\x1bUpdateMedicalRecordsRequest\x12\x12\n\npatient_id\x18\x01 \x01(\t\x12\x31\n\x0cgeneral_info\x18\x02 \x03(\x0b\x32\x1b.patient.GeneralInformation\x12\x33\n\rdiabetes_info\x18\x03 \x03(\x0b\x32\x1c.patient.DiabetesInformation\x12+\n\thmod_info\x18\x04 \x03(\x0b\x32\x18.patient.HMODInformation\x12)\n\x08\x63kd_info\x18\x05 \x03(\x0b\x32\x17.patient.CKDInformation\x12)\n\x08\x63vd_info\x18\x06 \x03(\x0b\x32\x17.patient.CVDInformation\"@\n\x1cUpdateMedicalRecordsResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\".\n\x18GetPatientDetailsRequest\x12\x12\n\npatient_id\x18\x01 \x01(\t\"\xa9\x02\n\x19GetPatientDetailsResponse\x12!\n\x07patient\x18\x01 \x01(\x0b\x32\x10.patient.Patient\x12\x31\n\x0cgeneral_info\x18\x02 \x03(\x0b\x32\x1b.patient.GeneralInformation\x12\x33\n\rdiabetes_info\x18\x03 \x03(\x0b\x32\x1c.patient.DiabetesInformation\x12+\n\thmod_info\x18\x04 \x03(\x0b\x32\x18.patient.HMODInformation\x12)\n\x08\x63kd_info\x18\x05 \x03(\x0b\x32\x17.patient.CKDInformation\x12)\n\x08\x63vd_info\x18\x06 \x03(\x0b\x32\x17.patient.CVDInformation\"\xc3\x01\n\x07Patient\x12\x12\n\npatient_id\x18\x01 \x01(\t\x12\x0c\n\x04name\x18\x02 \x01(\t\x12\x0b\n\x03\x61ge\x18\x03 \x01(\x05\x12\x0e\n\x06gender\x18\x04 \x01(\x05\x12\x10\n\x08\x64iabetes\x18\x05 \x01(\x02\x12\x0c\n\x04hmod\x18\x06 \x01(\x02\x12\x0b\n\x03\x63kd\x18\x07 \x01(\x02\x12\x0b\n\x03\x63vd\x18\x08 \x01(\x02\x12\x0b\n\x03\x63hd\x18\t \x01(\x02\x12\x18\n\x10risk_category_id\x18\n \x01(\t\x12\x18\n\x10risk_description\x18\x0b \x01(\t\"\xb2\x01\n\x12GeneralInformation\x12\x0f\n\x07info_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\t\x12\x17\n\x0f\x61vg_daily_steps\x18\x03 \x01(\x05\x12\x0b\n\x03hdl\x18\x04 \x01(\x05\x12\x0b\n\x03ldl\x18\x05 \x01(\x05\x12\x13\n\x0b\x63holesterol\x18\x06 \x01(\x02\x12\x0c\n\x04\x63\x61\x63s\x18\x07 \x01(\x05\x12\x15\n\rresting_pulse\x18\x08 \x01(\x05\x12\x11\n\ttest_date\x18\t \x01(\t\"f\n\x13\x44iabetesInformation\x12\x13\n\x0b\x64iabetes_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\t\x12\x0b\n\x03\x66\x62g\x18\x03 \x01(\x05\x12\r\n\x05hba1c\x18\x04 \x01(\x02\x12\x11\n\ttest_date\x18\x05 \x01(\t\"\x87\x01\n\x0fHMODInformation\x12\x0f\n\x07hmod_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\t\x12\x0f\n\x07lv_mass\x18\x03 \x01(\x05\x12\x18\n\x10microalbuminuria\x18\x04 \x01(\x05\x12\x0b\n\x03pwv\x18\x05 \x01(\x02\x12\x0b\n\x03\x61\x62i\x18\x06 \x01(\x02\x12\x11\n\ttest_date\x18\x07 \x01(\t\"v\n\x0e\x43KDInformation\x12\x0e\n\x06\x63kd_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\t\x12\x18\n\x10serum_creatinine\x18\x03 \x01(\x02\x12\x0c\n\x04\x65gfr\x18\x04 \x01(\x05\x12\x0c\n\x04uacr\x18\x05 \x01(\x05\x12\x11\n\ttest_date\x18\x06 \x01(\t\"]\n\x0e\x43VDInformation\x12\x0e\n\x06\x63vd_id\x18\x01 \x01(\x05\x12\x0b\n\x03pid\x18\x02 \x01(\t\x12\n\n\x02\x62p\x18\x03 \x01(\t\x12\x0f\n\x07smoking\x18\x04 \x01(\x05\x12\x11\n\ttest_date\x18\x05 \x01(\t2\xf1\x03\n\x14PatientDetailService\x12Z\n\x11GetPatientDetails\x12!.patient.GetPatientDetailsRequest\x1a\".patient.GetPatientDetailsResponse\x12\x63\n\x14UpdatePatientDetails\x12$.patient.UpdatePatientDetailsRequest\x1a%.patient.UpdatePatientDetailsResponse\x12\x63\n\x14UpdateMedicalRecords\x12$.patient.UpdateMedicalRecordsRequest\x1a%.patient.UpdateMedicalRecordsResponse\x12N\n\rCreatePatient\x12\x1d.patient.CreatePatientRequest\x1a\x1e.patient.CreatePatientResponse\x12\x63\n\x14InsertPatientRecords\x12$.patient.InsertPatientRecordsRequest\x1a%.patient.InsertPatientRecordsResponseb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'patient_detail_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
-  _globals['_GETPATIENTDETAILSREQUEST']._serialized_start=33
-  _globals['_GETPATIENTDETAILSREQUEST']._serialized_end=79
-  _globals['_GETPATIENTDETAILSRESPONSE']._serialized_start=82
-  _globals['_GETPATIENTDETAILSRESPONSE']._serialized_end=379
-  _globals['_PATIENT']._serialized_start=382
-  _globals['_PATIENT']._serialized_end=577
-  _globals['_GENERALINFORMATION']._serialized_start=580
-  _globals['_GENERALINFORMATION']._serialized_end=758
-  _globals['_DIABETESINFORMATION']._serialized_start=760
-  _globals['_DIABETESINFORMATION']._serialized_end=862
-  _globals['_HMODINFORMATION']._serialized_start=865
-  _globals['_HMODINFORMATION']._serialized_end=1000
-  _globals['_CKDINFORMATION']._serialized_start=1002
-  _globals['_CKDINFORMATION']._serialized_end=1120
-  _globals['_CVDINFORMATION']._serialized_start=1122
-  _globals['_CVDINFORMATION']._serialized_end=1215
-  _globals['_PATIENTDETAILSERVICE']._serialized_start=1217
-  _globals['_PATIENTDETAILSERVICE']._serialized_end=1331
+  _globals['_INSERTPATIENTRECORDSREQUEST']._serialized_start=34
+  _globals['_INSERTPATIENTRECORDSREQUEST']._serialized_end=333
+  _globals['_INSERTPATIENTRECORDSRESPONSE']._serialized_start=335
+  _globals['_INSERTPATIENTRECORDSRESPONSE']._serialized_end=399
+  _globals['_CREATEPATIENTREQUEST']._serialized_start=402
+  _globals['_CREATEPATIENTREQUEST']._serialized_end=694
+  _globals['_CREATEPATIENTRESPONSE']._serialized_start=696
+  _globals['_CREATEPATIENTRESPONSE']._serialized_end=808
+  _globals['_UPDATEPATIENTDETAILSREQUEST']._serialized_start=810
+  _globals['_UPDATEPATIENTDETAILSREQUEST']._serialized_end=874
+  _globals['_UPDATEPATIENTDETAILSRESPONSE']._serialized_start=876
+  _globals['_UPDATEPATIENTDETAILSRESPONSE']._serialized_end=983
+  _globals['_UPDATEMEDICALRECORDSREQUEST']._serialized_start=986
+  _globals['_UPDATEMEDICALRECORDSREQUEST']._serialized_end=1270
+  _globals['_UPDATEMEDICALRECORDSRESPONSE']._serialized_start=1272
+  _globals['_UPDATEMEDICALRECORDSRESPONSE']._serialized_end=1336
+  _globals['_GETPATIENTDETAILSREQUEST']._serialized_start=1338
+  _globals['_GETPATIENTDETAILSREQUEST']._serialized_end=1384
+  _globals['_GETPATIENTDETAILSRESPONSE']._serialized_start=1387
+  _globals['_GETPATIENTDETAILSRESPONSE']._serialized_end=1684
+  _globals['_PATIENT']._serialized_start=1687
+  _globals['_PATIENT']._serialized_end=1882
+  _globals['_GENERALINFORMATION']._serialized_start=1885
+  _globals['_GENERALINFORMATION']._serialized_end=2063
+  _globals['_DIABETESINFORMATION']._serialized_start=2065
+  _globals['_DIABETESINFORMATION']._serialized_end=2167
+  _globals['_HMODINFORMATION']._serialized_start=2170
+  _globals['_HMODINFORMATION']._serialized_end=2305
+  _globals['_CKDINFORMATION']._serialized_start=2307
+  _globals['_CKDINFORMATION']._serialized_end=2425
+  _globals['_CVDINFORMATION']._serialized_start=2427
+  _globals['_CVDINFORMATION']._serialized_end=2520
+  _globals['_PATIENTDETAILSERVICE']._serialized_start=2523
+  _globals['_PATIENTDETAILSERVICE']._serialized_end=3020
 # @@protoc_insertion_point(module_scope)

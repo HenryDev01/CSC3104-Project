@@ -5,11 +5,76 @@ package patient;
 // gRPC service
 service PatientDetailService {
   rpc GetPatientDetails (GetPatientDetailsRequest) returns (GetPatientDetailsResponse);
+  rpc UpdatePatientDetails(UpdatePatientDetailsRequest) returns (UpdatePatientDetailsResponse);
+  // New methods for updating medical records
+  rpc UpdateMedicalRecords(UpdateMedicalRecordsRequest) returns (UpdateMedicalRecordsResponse);
+  // Create a new patient with medical records
+  rpc CreatePatient(CreatePatientRequest) returns (CreatePatientResponse);
+
+   rpc InsertPatientRecords(InsertPatientRecordsRequest) returns (InsertPatientRecordsResponse);
+
+
+}
+
+message InsertPatientRecordsRequest {
+  Patient patient = 1;
+  GeneralInformation general_info = 2;
+  DiabetesInformation diabetes_info = 3;
+  HMODInformation hmod_info = 4;
+  CKDInformation ckd_info = 5;
+  CVDInformation cvd_info = 6;
+}
+
+message InsertPatientRecordsResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message CreatePatientRequest {
+  Patient patient = 1;
+  GeneralInformation general_info = 4;
+  DiabetesInformation diabetes_info = 5;
+  HMODInformation hmod_info = 6;
+  CKDInformation ckd_info = 7;
+  CVDInformation cvd_info = 8;
+}
+
+message CreatePatientResponse {
+  bool success = 1;
+  string message = 2;
+  string patient_id = 3;  // Newly created patient ID
+  Patient patient = 4;
+}
+
+
+message UpdatePatientDetailsRequest {
+  Patient patient = 1;
+}
+
+message UpdatePatientDetailsResponse {
+  bool success = 1;
+  string message = 2;
+  Patient updated_patient = 3;
+}
+
+// New messages for updating medical records
+message UpdateMedicalRecordsRequest {
+  string patient_id = 1;
+  repeated GeneralInformation general_info = 2;
+  repeated DiabetesInformation diabetes_info = 3;
+  repeated HMODInformation hmod_info = 4;
+  repeated CKDInformation ckd_info = 5;
+  repeated CVDInformation cvd_info = 6;
+}
+
+message UpdateMedicalRecordsResponse {
+  bool success = 1;
+  string message = 2;
 }
 
 // Request
 message GetPatientDetailsRequest {
-  int32 patient_id = 1;
+  string patient_id = 1;
 }
 
 // Response
@@ -25,7 +90,7 @@ message GetPatientDetailsResponse {
 // === Entity Messages ===
 
 message Patient {
-  int32 patient_id = 1;
+  string patient_id = 1;
   string name = 2;
   int32 age = 3;
   int32 gender = 4;
@@ -40,7 +105,7 @@ message Patient {
 
 message GeneralInformation {
   int32 info_id = 1;
-  int32 pid = 2;
+  string pid = 2;
   int32 avg_daily_steps = 3;
   int32 hdl = 4;
   int32 ldl = 5;
@@ -52,7 +117,7 @@ message GeneralInformation {
 
 message DiabetesInformation {
   int32 diabetes_id = 1;
-  int32 pid = 2;
+  string pid = 2;
   int32 fbg = 3;
   float hba1c = 4;
   string test_date = 5;
@@ -60,7 +125,7 @@ message DiabetesInformation {
 
 message HMODInformation {
   int32 hmod_id = 1;
-  int32 pid = 2;
+  string pid = 2;
   int32 lv_mass = 3;
   int32 microalbuminuria = 4;
   float pwv = 5;
@@ -70,7 +135,7 @@ message HMODInformation {
 
 message CKDInformation {
   int32 ckd_id = 1;
-  int32 pid = 2;
+  string pid = 2;
   float serum_creatinine = 3;
   int32 egfr = 4;
   int32 uacr = 5;
@@ -79,7 +144,7 @@ message CKDInformation {
 
 message CVDInformation {
   int32 cvd_id = 1;
-  int32 pid = 2;
+  string pid = 2;
   string bp = 3;
   int32 smoking = 4;
   string test_date = 5;

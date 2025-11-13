@@ -5,7 +5,10 @@ package patient;
 // Service to list or query patient data
 service PatientService {
   rpc ListPatients (ListPatientsRequest) returns (ListPatientsResponse);
+  rpc ListAllPatients(Empty) returns (ListPatientsResponse);
 }
+
+message Empty {}
 
 message ListPatientsRequest {
   string name = 1;        // optional filter (search by name)
@@ -16,7 +19,7 @@ message ListPatientsRequest {
 }
 
 message Patient {
-  int32 patient_id = 1;
+  string patient_id = 1;
   string name = 2;
   int32 age = 3;
   int32 gender = 4;

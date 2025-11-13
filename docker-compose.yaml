@@ -30,46 +30,46 @@ services:
     networks:
       - healthcare-net
 
-  auth-service:
-    container_name: auth-service
-    image: auth-service
-    build: ./backend/src/auth-service
-    ports:
-      - "5001:5001"
-      - "50051:50051"
-    volumes:
-      - ./backend/src/auth-service:/app
-    networks:
-      - healthcare-net
-    depends_on:
-      database:
-        condition: service_healthy
-    environment:
-      - DB_HOST=database
-      - DB_PORT=3306
-      - DB_USER=user
-      - DB_PASSWORD=pass123
-      - DB_NAME=Project
-
-  list-patient-service:
-    container_name: list-patient-service
-    image: list-patient-service
-    build: ./backend/src/list-patient-service
-    ports:
-      - "50052:50052"
-    volumes:
-      - ./backend/src/list-patient-service:/app
-    networks:
-      - healthcare-net
-    depends_on:
-      database:
-        condition: service_healthy
-    environment:
-      - DB_HOST=database
-      - DB_PORT=3306
-      - DB_USER=user
-      - DB_PASSWORD=pass123
-      - DB_NAME=Project
+#  auth-service:
+#    container_name: auth-service
+#    image: auth-service
+#    build: ./backend/src/auth-service
+#    ports:
+#      - "50051:50051"  # gRPC
+#      - "8000:8000"    # Prometheus metrics
+#    volumes:
+#      - ./backend/src/auth-service:/app
+#    networks:
+#      - healthcare-net
+#    depends_on:
+#      auth-db:
+#        condition: service_healthy
+#    environment:
+#      - DB_HOST=auth-db
+#      - DB_PORT=3306
+#      - DB_USER=user
+#      - DB_PASSWORD=pass123
+#      - DB_NAME=Project
+#
+#  list-patient-service:
+#    container_name: list-patient-service
+#    image: list-patient-service
+#    build: ./backend/src/list-patient-service
+#    ports:
+#      - "50052:50052"
+#    volumes:
+#      - ./backend/src/list-patient-service:/app
+#    networks:
+#      - healthcare-net
+#    depends_on:
+#      database:
+#        condition: service_healthy
+#    environment:
+#      - DB_HOST=database
+#      - DB_PORT=3306
+#      - DB_USER=user
+#      - DB_PASSWORD=pass123
+#      - DB_NAME=Project
 
 
   patient-detail-service:
@@ -87,7 +87,7 @@ services:
         condition: service_healthy
     environment:
       - DB_HOST=database
-      - DB_PORT=3306
+      - DB_PORT=3306  # use the containerport not host port
       - DB_USER=user
       - DB_PASSWORD=pass123
       - DB_NAME=Project
@@ -115,14 +115,22 @@ services:
     image: scheduler-service
     build: ./backend/src/scheduler-service
     ports:
+      - "50055:50055"
       - "5005:5005"
     volumes:
       - ./backend/src/scheduler-service:/app
     networks:
       - healthcare-net
     depends_on:
-      database:
+      scheduler-db:
         condition: service_healthy
+    environment:
+      - DB_HOST=scheduler-db
+      - DB_PORT=3306
+      - DB_USER=user
+      - DB_PASSWORD=pass123
+      - DB_NAME=Project
+
 
 
   envoy-service:
@@ -136,8 +144,6 @@ services:
       - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
     networks:
       - healthcare-net
-    depends_on:
-      - auth-service
 
   database:
     build: ./Database
@@ -150,7 +156,7 @@ services:
       MYSQL_USER: user
       MYSQL_PASSWORD: pass123
     ports:
-      - "3306:3306"
+      - "3309:3306"
     volumes:
       - mariadb_data:/var/lib/mysql
       - ./Database/init.sql:/docker-entrypoint-initdb.d/init.sql
@@ -162,6 +168,53 @@ services:
       timeout: 3s
       retries: 10
       start_period: 30s
+
+  auth-db:
+    image: mariadb:11.4
+    container_name: auth-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: Project
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass123
+    ports:
+      - "3307:3306"
+    volumes:
+      - auth-db-data:/var/lib/mysql
+      - ./backend/src/auth-service/Database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+          - healthcare-net
+    healthcheck:
+      test: [ "CMD", "mariadb", "-uroot", "-proot123", "-e", "SELECT 1" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
+  scheduler-db:
+    image: mariadb:11.4
+    container_name: scheduler-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: Project
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass123
+    ports:
+      - "3308:3306"
+    volumes:
+      - scheduler-db-data:/var/lib/mysql
+      - ./backend/src/scheduler-service/Database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - healthcare-net
+    healthcheck:
+      test: [ "CMD", "mariadb", "-uroot", "-proot123", "-e", "SELECT 1" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 30s
+
 
 
   # Single-broker Kafka in KRaft mode (Confluent 7.6.1)
@@ -210,10 +263,20 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
-    entrypoint: [ "bash","-lc","kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.infer.requests --partitions 3 --replication-factor 1 && kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.risk.classifications --partitions 3 --replication-factor 1 && kafka-topics --bootstrap-server kafka:9092 --list && echo 'Topics ready'" ]
+    #entrypoint: [ "bash","-lc","kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.infer.requests --partitions 3 --replication-factor 1 && kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.risk.classifications --partitions 3 --replication-factor 1 && kafka-topics --bootstrap-server kafka:9092 --list && echo 'Topics ready'" ]
+    entrypoint:
+    - bash
+    - -lc
+    - |
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.infer.requests --partitions 3 --replication-factor 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic ai.risk.classifications --partitions 3 --replication-factor 1
+      kafka-topics --bootstrap-server kafka:9092 --create --if-not-exists --topic appointment.scheduled --partitions 3 --replication-factor 1
+      kafka-topics --bootstrap-server kafka:9092 --list
+      echo 'Topics ready'
     restart: "no"
     networks:
       - healthcare-net
+
 
   # Build the Python app image once; other services reference it
   app-image:
@@ -372,8 +435,33 @@ services:
     networks:
       - healthcare-net
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./Prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - healthcare-net
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    ports:
+      - "3001:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - healthcare-net
+
+
 volumes:
   mariadb_data:
+  auth-db-data:
+  scheduler-db-data:
 
 networks:
   healthcare-net:

@@ -1,0 +1,63 @@
+// doctor.proto
+syntax = "proto3";
+package scheduler;
+
+service SchedulerService {
+    rpc GetDoctors(Empty) returns (DoctorList);
+    rpc GetAvailability(DoctorAvailabilityRequest) returns (DoctorAvailabilityList);
+    rpc UpdateAvailability(UpdateAvailabilityRequest) returns (UpdateAvailabilityResponse);
+    rpc CreateAvailability(CreateAvailabilityRequest) returns (CreateAvailabilityResponse);
+}
+
+message Empty {}
+
+
+message CreateAvailabilityRequest {
+    int32 doctor_id = 1;
+    string date = 2;
+    string start_time = 3;
+    string end_time = 4;
+    bool available = 5;
+}
+
+message CreateAvailabilityResponse {
+    bool success = 1;
+    int32 availability_id = 2;
+    string message = 3;
+}
+
+message Doctor {
+    int32 doctor_id = 1;
+    string name = 2;
+    string specialization = 3;
+}
+
+message DoctorList {
+    repeated Doctor doctors = 1;
+}
+
+message DoctorAvailability {
+    int32 availability_id = 1;
+    int32 doctor_id = 2;
+    string date = 3;
+    string start_time = 4;
+    string end_time = 5;
+    bool available = 6;
+}
+
+message DoctorAvailabilityRequest {
+    int32 doctor_id = 1;
+}
+
+message DoctorAvailabilityList {
+    repeated DoctorAvailability availability = 1;
+}
+
+message UpdateAvailabilityRequest {
+    int32 availability_id = 1;
+    bool available = 2;
+}
+
+message UpdateAvailabilityResponse {
+    bool success = 1;
+}

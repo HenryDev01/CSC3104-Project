@@ -24,7 +24,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\x12\x0e\x61uthentication\"#\n\x0b\x43redentials\x12\t\n\x01x\x18\x01 \x01(\t\x12\t\n\x01y\x18\x02 \x01(\t\"\x12\n\x05Reply\x12\t\n\x01x\x18\x01 \x01(\x08\x32_\n\x0e\x41uthentication\x12M\n\x15is_credential_correct\x12\x1b.authentication.Credentials\x1a\x15.authentication.Reply\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nauth.proto\x12\x0e\x61uthentication\"1\n\x0b\x43redentials\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"(\n\x05Reply\x12\x10\n\x08is_valid\x18\x01 \x01(\x08\x12\r\n\x05token\x18\x02 \x01(\t\"\x1d\n\x0cTokenRequest\x12\r\n\x05token\x18\x01 \x01(\t\"-\n\nTokenReply\x12\r\n\x05valid\x18\x01 \x01(\x08\x12\x10\n\x08username\x18\x02 \x01(\t2\xad\x01\n\x0e\x41uthentication\x12M\n\x15is_credential_correct\x12\x1b.authentication.Credentials\x1a\x15.authentication.Reply\"\x00\x12L\n\x0evalidate_token\x12\x1c.authentication.TokenRequest\x1a\x1a.authentication.TokenReply\"\x00\x62\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -32,9 +32,13 @@ _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'auth_pb2', _globals)
 if not _descriptor._USE_C_DESCRIPTORS:
   DESCRIPTOR._loaded_options = None
   _globals['_CREDENTIALS']._serialized_start=30
-  _globals['_CREDENTIALS']._serialized_end=65
-  _globals['_REPLY']._serialized_start=67
-  _globals['_REPLY']._serialized_end=85
-  _globals['_AUTHENTICATION']._serialized_start=87
-  _globals['_AUTHENTICATION']._serialized_end=182
+  _globals['_CREDENTIALS']._serialized_end=79
+  _globals['_REPLY']._serialized_start=81
+  _globals['_REPLY']._serialized_end=121
+  _globals['_TOKENREQUEST']._serialized_start=123
+  _globals['_TOKENREQUEST']._serialized_end=152
+  _globals['_TOKENREPLY']._serialized_start=154
+  _globals['_TOKENREPLY']._serialized_end=199
+  _globals['_AUTHENTICATION']._serialized_start=202
+  _globals['_AUTHENTICATION']._serialized_end=375
 # @@protoc_insertion_point(module_scope)

@@ -39,12 +39,23 @@ class AuthenticationStub(object):
                 request_serializer=auth__pb2.Credentials.SerializeToString,
                 response_deserializer=auth__pb2.Reply.FromString,
                 _registered_method=True)
+        self.validate_token = channel.unary_unary(
+                '/authentication.Authentication/validate_token',
+                request_serializer=auth__pb2.TokenRequest.SerializeToString,
+                response_deserializer=auth__pb2.TokenReply.FromString,
+                _registered_method=True)
 
 
 class AuthenticationServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def is_credential_correct(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def validate_token(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -57,6 +68,11 @@ def add_AuthenticationServicer_to_server(servicer, server):
                     servicer.is_credential_correct,
                     request_deserializer=auth__pb2.Credentials.FromString,
                     response_serializer=auth__pb2.Reply.SerializeToString,
+            ),
+            'validate_token': grpc.unary_unary_rpc_method_handler(
+                    servicer.validate_token,
+                    request_deserializer=auth__pb2.TokenRequest.FromString,
+                    response_serializer=auth__pb2.TokenReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -86,6 +102,33 @@ class Authentication(object):
             '/authentication.Authentication/is_credential_correct',
             auth__pb2.Credentials.SerializeToString,
             auth__pb2.Reply.FromString,
+            options,
+            channel_credentials,
+            insecure,
+            call_credentials,
+            compression,
+            wait_for_ready,
+            timeout,
+            metadata,
+            _registered_method=True)
+
+    @staticmethod
+    def validate_token(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(
+            request,
+            target,
+            '/authentication.Authentication/validate_token',
+            auth__pb2.TokenRequest.SerializeToString,
+            auth__pb2.TokenReply.FromString,
             options,
             channel_credentials,
             insecure,

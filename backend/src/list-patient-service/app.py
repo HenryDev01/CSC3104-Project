@@ -1,26 +1,14 @@
-from flask import Flask, request, jsonify
-from flask_cors import CORS
 from Model.ListPatientService import PatientServiceServicer
 from concurrent import futures
 import list_patient_pb2_grpc
 import grpc
 import threading
+from prometheus_client import start_http_server
 
-app = Flask(__name__)
-CORS(app)
+
 
 data = None
 
-@app.route('/list/patient', methods=['POST'])
-def login():
-    global data
-    data = request.json
-    print(data)
-    return jsonify({"status":"list ok"}),200
-
-@app.route('/list/patient', methods=['GET'])
-def getLogin():
-    return jsonify(data)
 
 
 
@@ -34,4 +22,5 @@ def serve():
 
 
 if __name__ == "__main__":
+    start_http_server(8001)
     serve()

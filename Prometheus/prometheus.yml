@@ -1,0 +1,31 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['prometheus:9090']
+
+  # Example: if you have a containerized app exposing metrics
+  - job_name: 'auth-service'
+    static_configs:
+      - targets: ['host.docker.internal:30080']
+
+  - job_name: 'list-patient-service'
+    static_configs:
+      - targets: [ 'host.docker.internal:30081' ]
+
+  - job_name: 'patient-detail-service'
+    static_configs:
+      - targets: [ 'patient-detail-service:8002' ]
+
+
+  - job_name: 'risk-app-service'
+    static_configs:
+      - targets: [ 'risk-app-service:8003' ]
+
+
+
+
+
+

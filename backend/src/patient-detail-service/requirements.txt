@@ -4,3 +4,4 @@ grpcio
 grpcio-tools
 protobuf
 mysql-connector-python
+prometheus-client

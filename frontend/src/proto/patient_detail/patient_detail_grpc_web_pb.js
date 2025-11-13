@@ -135,5 +135,249 @@ proto.patient.PatientDetailServicePromiseClient.prototype.getPatientDetails =
 };
 
 
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.patient.UpdatePatientDetailsRequest,
+ *   !proto.patient.UpdatePatientDetailsResponse>}
+ */
+const methodDescriptor_PatientDetailService_UpdatePatientDetails = new grpc.web.MethodDescriptor(
+  '/patient.PatientDetailService/UpdatePatientDetails',
+  grpc.web.MethodType.UNARY,
+  proto.patient.UpdatePatientDetailsRequest,
+  proto.patient.UpdatePatientDetailsResponse,
+  /**
+   * @param {!proto.patient.UpdatePatientDetailsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.patient.UpdatePatientDetailsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.patient.UpdatePatientDetailsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.patient.UpdatePatientDetailsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.patient.UpdatePatientDetailsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.patient.PatientDetailServiceClient.prototype.updatePatientDetails =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/patient.PatientDetailService/UpdatePatientDetails',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_UpdatePatientDetails,
+      callback);
+};
+
+
+/**
+ * @param {!proto.patient.UpdatePatientDetailsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.patient.UpdatePatientDetailsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.patient.PatientDetailServicePromiseClient.prototype.updatePatientDetails =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/patient.PatientDetailService/UpdatePatientDetails',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_UpdatePatientDetails);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.patient.UpdateMedicalRecordsRequest,
+ *   !proto.patient.UpdateMedicalRecordsResponse>}
+ */
+const methodDescriptor_PatientDetailService_UpdateMedicalRecords = new grpc.web.MethodDescriptor(
+  '/patient.PatientDetailService/UpdateMedicalRecords',
+  grpc.web.MethodType.UNARY,
+  proto.patient.UpdateMedicalRecordsRequest,
+  proto.patient.UpdateMedicalRecordsResponse,
+  /**
+   * @param {!proto.patient.UpdateMedicalRecordsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.patient.UpdateMedicalRecordsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.patient.UpdateMedicalRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.patient.UpdateMedicalRecordsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.patient.UpdateMedicalRecordsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.patient.PatientDetailServiceClient.prototype.updateMedicalRecords =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/patient.PatientDetailService/UpdateMedicalRecords',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_UpdateMedicalRecords,
+      callback);
+};
+
+
+/**
+ * @param {!proto.patient.UpdateMedicalRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.patient.UpdateMedicalRecordsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.patient.PatientDetailServicePromiseClient.prototype.updateMedicalRecords =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/patient.PatientDetailService/UpdateMedicalRecords',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_UpdateMedicalRecords);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.patient.CreatePatientRequest,
+ *   !proto.patient.CreatePatientResponse>}
+ */
+const methodDescriptor_PatientDetailService_CreatePatient = new grpc.web.MethodDescriptor(
+  '/patient.PatientDetailService/CreatePatient',
+  grpc.web.MethodType.UNARY,
+  proto.patient.CreatePatientRequest,
+  proto.patient.CreatePatientResponse,
+  /**
+   * @param {!proto.patient.CreatePatientRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.patient.CreatePatientResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.patient.CreatePatientRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.patient.CreatePatientResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.patient.CreatePatientResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.patient.PatientDetailServiceClient.prototype.createPatient =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/patient.PatientDetailService/CreatePatient',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_CreatePatient,
+      callback);
+};
+
+
+/**
+ * @param {!proto.patient.CreatePatientRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.patient.CreatePatientResponse>}
+ *     Promise that resolves to the response
+ */
+proto.patient.PatientDetailServicePromiseClient.prototype.createPatient =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/patient.PatientDetailService/CreatePatient',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_CreatePatient);
+};
+
+
+/**
+ * @const
+ * @type {!grpc.web.MethodDescriptor<
+ *   !proto.patient.InsertPatientRecordsRequest,
+ *   !proto.patient.InsertPatientRecordsResponse>}
+ */
+const methodDescriptor_PatientDetailService_InsertPatientRecords = new grpc.web.MethodDescriptor(
+  '/patient.PatientDetailService/InsertPatientRecords',
+  grpc.web.MethodType.UNARY,
+  proto.patient.InsertPatientRecordsRequest,
+  proto.patient.InsertPatientRecordsResponse,
+  /**
+   * @param {!proto.patient.InsertPatientRecordsRequest} request
+   * @return {!Uint8Array}
+   */
+  function(request) {
+    return request.serializeBinary();
+  },
+  proto.patient.InsertPatientRecordsResponse.deserializeBinary
+);
+
+
+/**
+ * @param {!proto.patient.InsertPatientRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>} metadata User defined
+ *     call metadata
+ * @param {function(?grpc.web.RpcError, ?proto.patient.InsertPatientRecordsResponse)}
+ *     callback The callback function(error, response)
+ * @return {!grpc.web.ClientReadableStream<!proto.patient.InsertPatientRecordsResponse>|undefined}
+ *     The XHR Node Readable Stream
+ */
+proto.patient.PatientDetailServiceClient.prototype.insertPatientRecords =
+    function(request, metadata, callback) {
+  return this.client_.rpcCall(this.hostname_ +
+      '/patient.PatientDetailService/InsertPatientRecords',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_InsertPatientRecords,
+      callback);
+};
+
+
+/**
+ * @param {!proto.patient.InsertPatientRecordsRequest} request The
+ *     request proto
+ * @param {?Object<string, string>=} metadata User defined
+ *     call metadata
+ * @return {!Promise<!proto.patient.InsertPatientRecordsResponse>}
+ *     Promise that resolves to the response
+ */
+proto.patient.PatientDetailServicePromiseClient.prototype.insertPatientRecords =
+    function(request, metadata) {
+  return this.client_.unaryCall(this.hostname_ +
+      '/patient.PatientDetailService/InsertPatientRecords',
+      request,
+      metadata || {},
+      methodDescriptor_PatientDetailService_InsertPatientRecords);
+};
+
+
 module.exports = proto.patient;
 
