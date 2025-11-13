@@ -9,6 +9,17 @@ https://docs.google.com/spreadsheets/d/1Q5UqiDXuWwfzx7V_8h89Ao2iI-fAUSuC/edit?us
 We plan to have features that include an authentication system for healthcare practitioners to securely access the platform, a patient’s data input interface where AI classifies the patient’s risk level upon submission, and a scheduling algorithm that prioritizes appointments based on assessed risk with manual confirmation by the doctor (Fig 1). The system also provides a detailed overview of patient information and maintains a comprehensive list of all patients. The architecture will be implemented using a microservices approach: the frontend will utilize Dockerized ReactJS for the user interface and Envoy as middleware to facilitate communication between services. Backend services, including scheduling, patient record CRUD, listing patients, and authentication, will be built with Dockerized Flask applications and will communicate using gRPC. The AI model will be containerized with Docker, using Python and federated learning via TensorFlow  to train on distributed datasets. MariaDB will serve as the relational database. Apache Kafka will be employed to manage asynchronous communication with patient submissions publishing AI-generated risk classifications and a scheduler subscribing to the risk classification. Kubernetes will be used to enable horizontal scaling and replication of microservices to ensure reliability and high availability.
 
 ## How to run
+
+## Kubernetes
+Enable kubernetes in docker desktop before using the command. 
+~~~bash
+kubectl apply -f auth-service-deployment.yaml
+kubectl apply -f auth-service-service.yaml
+kubectl apply -f list-patient-service-deployment.yaml
+kubectl apply -f list-patient-service-service.yaml
+~~~
+
+## Docker
 1. Stop existing containers when necessary
 ~~~bash
 docker-compose down
