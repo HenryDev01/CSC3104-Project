@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {useNavigate} from "react-router-dom"
 import { NavigationBar } from "../components/NavBar";
 import { PatientServiceClient } from "../proto/list_patient/list_patient_grpc_web_pb";
@@ -33,6 +33,8 @@ export function PatientForm() {
   const [patientId, setPatientId] = useState(true);
   const [selectedPatient, setSelectedPatient] = useState("");
     const [riskData, setRiskData] = useState(null);
+    const latestRiskRef = useRef(null);
+
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     "name": "",
@@ -152,12 +154,11 @@ export function PatientForm() {
         probs: JSON.parse(data.probs || '{}'),
         disease_groups: JSON.parse(data.diseaseGroups || '{}')
       };
+        latestRiskRef.current = parsedData;  // <-- always immediate, no delay
+        setRiskData(parsedData);
+        setLoading(false);
 
-  console.log("Received classification:", parsedData);
-  setRiskData(parsedData);
-  setLoading(false);
-
-  console.log(riskData)
+        console.log("Fresh:", latestRiskRef.current);
 
   });
 };
@@ -181,6 +182,7 @@ export function PatientForm() {
 
   const handleSchedule = async (e) => {
   e.preventDefault(); // if it's inside a form
+console.log(riskData);
 
   try {
     const res = await fetch("http://localhost:10000/api/scheduler/process-risk", {
@@ -188,7 +190,10 @@ export function PatientForm() {
       headers: {
         "Content-Type": "application/json",
       },
-     body: JSON.stringify({ patient_id: patientId }),
+     body: JSON.stringify({
+        patient_id: patientId,
+        risk_data: riskData, // Entire risk object as JSON
+      }),
 
     });
 

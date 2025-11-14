@@ -114,7 +114,7 @@ static_resources:
               - endpoint:
                   address:
                     socket_address:
-                      address: patient-detail-service
+                      address: host.docker.internal # changed from patient-detail-service
                       port_value: 50053
 
 

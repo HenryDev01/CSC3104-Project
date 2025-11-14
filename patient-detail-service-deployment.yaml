@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: patient-detail-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: patient-detail-service
+  template:
+    metadata:
+      labels:
+        app: patient-detail-service
+    spec:
+      containers:
+        - name: patient-detail-service
+          image: patient-detail-service:latest
+          imagePullPolicy: Never # Use "Never" if you're loading the image locally via `minikube image load` or `kind load docker-image`
+          ports:
+            - containerPort: 50053
+            - containerPort: 8002
+          env:
+            - name: DB_HOST
+              value: "host.docker.internal"  # ⬅️ Points to Docker Compose
+            - name: DB_PORT
+              value: "3309"
+            - name: DB_USER
+              value: "user"
+            - name: DB_PASSWORD
+              value: "pass123"
+            - name: DB_NAME
+              value: "Project"
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

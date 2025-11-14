@@ -1,11 +1,11 @@
 apiVersion: keda.sh/v1alpha1
 kind: ScaledObject
 metadata:
-  name: auth-service-scaledobject
+  name: list-patient-service-scaledobject
   namespace: default
 spec:
   scaleTargetRef:
-    name: auth-service
+    name: list-patient-service
   minReplicaCount: 1
   maxReplicaCount: 5
   cooldownPeriod: 15
@@ -14,9 +14,9 @@ spec:
   - type: prometheus
     metadata:
       serverAddress: "http://host.docker.internal:9090"
-      metricName: "incoming_requests_total"
-      query: "sum(rate(incoming_requests_total[15s]))"
-      threshold: "1"
+      metricName: "patient_list_requests_total"
+      query: "sum(rate(patient_list_requests_total[15s]))"
+      threshold: "5"
   advanced:
     horizontalPodAutoscalerConfig:
       behavior:

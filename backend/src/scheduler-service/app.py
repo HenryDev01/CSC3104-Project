@@ -14,6 +14,20 @@ from datetime import datetime, timedelta, date, time
 from typing import List, Dict, Optional
 import heapq
 from dataclasses import dataclass
+from prometheus_client import start_http_server, Counter, Histogram, generate_latest, CONTENT_TYPE_LATEST
+
+
+REQUEST_COUNT = Counter(
+    'scheduler_request_count',
+    'Total number of requests',
+    ['method', 'endpoint']
+)
+
+REQUEST_LATENCY = Histogram(
+    'scheduler_request_latency_seconds',
+    'Latency of requests in seconds',
+    ['endpoint']
+)
 
 
 
@@ -40,6 +54,21 @@ CORS(app)
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+
+def track_metrics(endpoint_name):
+    def decorator(f):
+        def wrapper(*args, **kwargs):
+            REQUEST_COUNT.labels(method=request.method, endpoint=endpoint_name).inc()
+            with REQUEST_LATENCY.labels(endpoint=endpoint_name).time():
+                return f(*args, **kwargs)
+        wrapper.__name__ = f.__name__
+        return wrapper
+    return decorator
+
+@app.route('/metrics')
+def metrics():
+    return generate_latest(), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 
 # Data structures
@@ -234,68 +263,56 @@ def determine_priority(riskGroup):
     # Determine priority group based on risk level
     if riskGroup == "P1":
         stability = "Critical"
+        priority_score = 4
     elif riskGroup == "P2":
         stability = "Unstable"
+        priority_score = 3
     elif riskGroup == "P3":
         stability = "Moderately Stable"
+        priority_score = 2
     else:
         stability = "Stable"
-    return stability
+        priority_score = 1
+
+    return stability, priority_score
 
 
 
 @app.route('/api/scheduler/process-risk', methods=['POST'])
+@track_metrics("process_risk_once")
 def process_risk_once():
     """Fetch messages from Kafka and schedule patients once"""
 
     request_data = request.get_json()
     target_patient_id = request_data.get("patient_id")  # the patient to process
-
-    consumer = Consumer({
-        "bootstrap.servers": "kafka:9092",
-        "group.id": f"fetch-risk-{target_patient_id}",
-        "auto.offset.reset": "earliest",
-        "enable.auto.commit": True,
-    })
-    consumer.subscribe([RISK_CLASSIFICATION_TOPIC])
-
+    risk_data = request_data.get("risk_data")
+    riskGroup = risk_data.get("riskGroup")
+    logger.info(risk_data)
     processed_patients = []
 
-    # Poll messages (e.g., 5 messages max to avoid long HTTP wait)
-    for _ in range(50):
-        msg = consumer.poll(1.0)
-        if msg is None:
-            continue
-        if msg.error():
-            continue
+    stability,priority_score = determine_priority(riskGroup)
 
-        try:
-            risk_data = json.loads(msg.value().decode('utf-8'))
-            patient_id = risk_data.get('patient_id', 'unknown')
-            if patient_id == target_patient_id:
-                stability = determine_priority(risk_data.riskGroup)
-                patient = Patient(
-                    patient_id=patient_id,
-                    priority_group=risk_data.riskGroup,
-                    priority_score=int(risk_data.riskGroup[1]),
-                    risk_data=risk_data,
-                    stability=stability,
-                    timestamp=datetime.now().isoformat()
-                )
-                appointment = schedule_appointment(patient)
-                processed_patients.append(patient_id)
-                break
-        except Exception as e:
-            print(f"Error processing message: {e}")
+    patient = Patient(
+        patient_id=target_patient_id,
+        priority_group=riskGroup,
+        priority_score=priority_score,
+        risk_data=risk_data,
+        stability=stability,
+        timestamp=datetime.now().isoformat()
+    )
+    appointment = schedule_appointment(patient)
+    processed_patients.append(target_patient_id)
 
-    consumer.close()
     return jsonify({
         "processed_patients": processed_patients,
-        "queue_size": len(patient_queue)
+        "queue_size": len(processed_patients)
     })
+
+
 
 
 @app.route('/api/scheduler/add_queue', methods=['POST'])
+@track_metrics("add_to_queue")
 def add_to_queue():
     try:
         data = request.json
@@ -304,7 +321,7 @@ def add_to_queue():
         riskGroup = risk_data.get("riskGroup")
 
         logger.info(risk_data)
-        stability = determine_priority(riskGroup)
+        stability,priority_score = determine_priority(riskGroup)
 
         if not patient_id or not riskGroup:
             return jsonify({
@@ -351,7 +368,7 @@ def add_to_queue():
         """, (
             patient_id,
             riskGroup,
-            int(riskGroup[1]),
+            priority_score,
             stability
         ))
 
@@ -375,7 +392,9 @@ def add_to_queue():
 
 # REST API Endpoints
 
+
 @app.route('/health', methods=['GET'])
+@track_metrics("health_check")
 def health_check():
     return jsonify({
         'service': 'scheduler-service',
@@ -385,6 +404,7 @@ def health_check():
 
 
 @app.route('/api/scheduler/stats', methods=['GET'])
+@track_metrics("get_stats")
 def get_stats():
     """Get scheduler statistics"""
     db = get_db_connection()
@@ -416,7 +436,12 @@ def get_stats():
         'priority_distribution': priority_dist
     })
 
+
+
+
+
 @app.route('/api/scheduler/queue', methods=['GET'])
+@track_metrics("get_queue")
 def get_queue():
     """Get current patient queue from database"""
     try:
@@ -449,7 +474,11 @@ def get_queue():
             'error': str(e)
         }), 500
 
+
+
+
 @app.route('/api/scheduler/appointments', methods=['GET'])
+@track_metrics("get_appointments")
 def get_appointments():
     db = get_db_connection()
     cursor = db.cursor(dictionary=True)
@@ -474,7 +503,9 @@ def get_appointments():
         'appointments': appointments,
         'count': len(appointments)
     })
+
 @app.route('/api/scheduler/appointments/date/<date>', methods=['GET'])
+@track_metrics("get_appointments_by_date")
 def get_appointments_by_date(date):
     """Get appointments for a specific date (YYYY-MM-DD) from the database"""
     try:
@@ -521,6 +552,7 @@ def get_appointments_by_date(date):
         return jsonify({'error': 'Internal server error'}), 500
 
 @app.route('/api/scheduler/schedule-next', methods=['POST'])
+@track_metrics("schedule_next")
 def schedule_next():
     """Manually schedule the next patient in queue"""
     conn = get_db_connection()
@@ -587,6 +619,7 @@ def schedule_next():
 
 
 @app.route('/api/scheduler/schedule-batch', methods=['POST'])
+@track_metrics("schedule_batch")
 def schedule_batch():
     """Schedule multiple patients from the database queue at once"""
     data = request.get_json() or {}
@@ -941,6 +974,7 @@ if __name__ == '__main__':
     # Start Kafka consumer in background thread
     # consumer_thread = threading.Thread(target=consume_risk_classifications, daemon=True)
     # consumer_thread.start()
+    start_http_server(8004)
 
     # Start gRPC server in background thread
     grpc_thread = threading.Thread(target=serve)

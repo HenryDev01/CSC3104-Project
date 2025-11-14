@@ -343,9 +343,7 @@ export function Schedule() {
                 </div>
                 <div>
                   <span className="font-semibold">Risk Score:</span>{" "}
-                  {selectedSlot.priority_score
-                    ? (selectedSlot.priority_score * 100).toFixed(1) + "%"
-                    : "N/A"}
+                    {selectedSlot.priority_score}
                 </div>
                 <div>
                   <span className="font-semibold">Status:</span> {selectedSlot.status}

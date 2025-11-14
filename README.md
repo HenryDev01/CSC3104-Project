@@ -11,12 +11,17 @@ We plan to have features that include an authentication system for healthcare pr
 ## How to run
 
 ## Kubernetes
-Enable kubernetes in docker desktop before using the command. 
+**Enable kubernetes in docker desktop before using the command.** 
 ~~~bash
+kubectl apply --server-side -f https://github.com/kedacore/keda/releases/download/v2.15.1/keda-2.15.1.yaml
 kubectl apply -f auth-service-deployment.yaml
+kubectl apply -f auth-service-keda.yaml
 kubectl apply -f auth-service-service.yaml
 kubectl apply -f list-patient-service-deployment.yaml
+kubectl apply -f list-patient-service-keda.yaml
 kubectl apply -f list-patient-service-service.yaml
+kubectl apply -f patient-detail-service-deployment.yaml
+kubectl apply -f patient-detail-service-service.yaml
 ~~~
 
 ## Docker

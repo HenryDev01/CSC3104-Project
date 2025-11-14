@@ -313,7 +313,7 @@ const formatTime = (seconds) => {
                                 </span>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {(patient.priority_score * 100).toFixed(1)}%
+                                {patient.priority_score}
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                                 {patient.stability}

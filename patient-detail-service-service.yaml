@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: patient-detail-service
+spec:
+  type: NodePort   # Exposes the service outside the cluster
+  selector:
+    app: patient-detail-service
+  ports:
+    - name: grpc
+      port: 50053
+      targetPort: 50053
+      nodePort: 30053  # optional: pick port to access outside
+    - name: metrics
+      port: 8002
+      targetPort: 8002
+      nodePort: 30082
